@@ -10,10 +10,12 @@ import {
   NewsFeed,
   Movies,
   MyList,
+  Profile,
 } from "./Pages";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./main.styles.scss";
 import { MoviePage } from "./Pages/MoviePage/MoviePage";
+import { AuthProvider } from "./Components/contexts/AuthContext/AuthContext";
 
 const isItLoggedIn = false;
 
@@ -29,6 +31,10 @@ const routing = createBrowserRouter([
       {
         path: "/movies",
         element: <Movies />,
+      },
+      {
+        path: "/profile/:userId",
+        element: <Profile />,
       },
       {
         path: "/auth",
@@ -51,6 +57,10 @@ const routing = createBrowserRouter([
       {
         path: "/movies",
         element: <Movies />,
+      },
+      {
+        path: "/profile/:userId",
+        element: <Profile />,
       },
       {
         path: "/friends",
@@ -78,6 +88,8 @@ const routing = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={routing} />
+    <AuthProvider>
+      <RouterProvider router={routing} />
+    </AuthProvider>
   </React.StrictMode>
 );

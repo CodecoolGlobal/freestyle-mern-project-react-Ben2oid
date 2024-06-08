@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 
-export const useFetchData = (runOnLoad, url, httpMethod, dataToSend = null) => {
+export const useFetchData = (
+  runOnLoad,
+  url,
+  httpMethod,
+  dataToSend = null,
+  headers = { "Content-Type": "application/json" }
+) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
@@ -9,7 +15,7 @@ export const useFetchData = (runOnLoad, url, httpMethod, dataToSend = null) => {
     setLoading(true);
     fetch(url, {
       method: httpMethod,
-      headers: { "Content-Type": "application/json" },
+      headers: headers,
       body: dataToSend,
     })
       .then((response) => response.json())

@@ -3,6 +3,7 @@ Content-Type: application/json
 
 {
   "username": "Pisty",
+  "displayName": "Pisty Pisty",
   "password": "IAmPisty",
   "email": "pisty@gmail.com"
 }
@@ -17,6 +18,8 @@ Content-Type: application/json
   "email": "pisty@gmail.com"
 }
 ###
+
+
 
 
 GET http://localhost:6969/api/movies/popular

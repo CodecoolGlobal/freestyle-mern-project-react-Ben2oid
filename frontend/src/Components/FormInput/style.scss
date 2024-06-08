@@ -1,5 +1,6 @@
 $sub-color: grey;
 $main-color: white;
+$error-color: red;
 
 @mixin shrinkLabel {
   top: -14px;
@@ -28,9 +29,20 @@ $main-color: white;
       outline: none;
     }
 
+    &.error{
+      border: 3px $error-color solid;
+    }
+
     &:focus ~ .form-input-label {
       @include shrinkLabel();
     }
+  }
+
+  .error-message{
+    color: $error-color;
+    position: absolute;
+    top:50px;
+    left:10px;
   }
 
   input[type='password'] {

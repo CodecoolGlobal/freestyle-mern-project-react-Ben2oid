@@ -6,3 +6,4 @@ export * from "./SignIn/SignIn";
 export * from "./SignUp/SignUp";
 export * from "./Result/Result";
 export * from "./SignUp/SignUp";
+export * from "./contexts/AuthContext/AuthContext"

@@ -1,14 +1,15 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
-// the browser still sends data through http and not  https so it isn't entirely secure, maybe if we have time we can use https!
-//notes, on the frontend we have to check if the username and password is unqiue and/or they're used in the database!
 const { Schema } = mongoose;
 
+//I was thinking of only saving the movie IDs inside of User
 const UserSchema = new Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true }
+  password: { type: String, required: true },
+  displayName: { type: String, required: true },
+  watchlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }]
 });
 
 //This is a middleware that makes sure the passwords are awlways hashed before storing them in the database!

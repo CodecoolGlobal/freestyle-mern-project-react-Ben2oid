@@ -1,5 +1,8 @@
-.authentication-container{
+$error-color: red;
+
+.authentication-container {
   display: flex;
+  position: relative;
   width: 900px;
   justify-content: space-between;
   margin: 30px auto;

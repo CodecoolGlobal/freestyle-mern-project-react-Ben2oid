@@ -7,3 +7,4 @@ export * from "./Friends/Friends";
 export * from "./Movies/Movies";
 export * from "./NewsFeed/NewsFeed";
 export * from "./MyList/MyList";
+export * from "./Profile/Profile";
