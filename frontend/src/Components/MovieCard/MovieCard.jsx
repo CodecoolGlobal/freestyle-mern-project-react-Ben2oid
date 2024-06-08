@@ -1,9 +1,15 @@
+import { useNavigate } from "react-router-dom";
 import "./style.scss";
-const baseImageUrl = "https://image.tmdb.org/t/p";
 
 export const MovieCard = ({ detailedMovieData }) => {
+  const baseImageUrl = "https://image.tmdb.org/t/p";
+  const navigate = useNavigate();
   const watchListBtnHandler = () => {
-    console.log("segg");
+    console.log("Szevasz");
+  };
+
+  const posterClickHandler = () => {
+    navigate(`/movie/${detailedMovieData.id}`);
   };
 
   return (
@@ -13,6 +19,7 @@ export const MovieCard = ({ detailedMovieData }) => {
           +
         </button>
         <img
+          onClick={posterClickHandler}
           className="poster-img"
           src={`${baseImageUrl}/w500/${detailedMovieData.poster_path}`}
           alt="poster"
@@ -22,7 +29,7 @@ export const MovieCard = ({ detailedMovieData }) => {
         <p>100% SO BAD IT'S GOOD</p>
       </div>
       <div className="title">
-        <h2>{detailedMovieData.title}</h2>
+        <h3>{detailedMovieData.title}</h3>
       </div>
     </div>
   );

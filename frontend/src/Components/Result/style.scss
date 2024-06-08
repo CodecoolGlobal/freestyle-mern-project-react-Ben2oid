@@ -1,0 +1,51 @@
+.results-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.results {
+  right: 2%;
+  width: 50%;
+  z-index: 4;
+  top: 0;
+  position: absolute;
+  background-color: black;
+  li {
+    margin: 1rem;
+  }
+}
+
+.result-poster {
+  height: 7rem;
+  margin: 0.5rem;
+}
+
+.search-result {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  transition: 0.3s;
+  &:hover {
+    background-color: rgb(80, 80, 80);
+    border-radius: 10px;
+  }
+  p {
+    margin: 1rem;
+  }
+}
+
+.result-descrip {
+  display: flex;
+  flex-direction: column;
+  h4 {
+    margin: 1rem;
+  }
+  p {
+    font-weight: 300;
+    margin: 0 1rem;
+    padding: 0;
+  }
+}

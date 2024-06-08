@@ -1,0 +1,35 @@
+.moviepage-main-container {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  font-size: xx-large;
+  h1 {
+    font-weight: 400;
+  }
+}
+
+.backdrop-image {
+  position: absolute;
+  z-index: -1;
+  width: 100vw;
+  filter: blur(10px) brightness(0.5);
+}
+
+.movie-detail-container {
+  width: 70vw;
+}
+
+.main-details {
+  display: flex;
+  .movie-poster {
+    height: 35rem;
+    margin-right: 2rem;
+  }
+}
+
+.trailer {
+  width: 100rem;
+  border: 0;
+}

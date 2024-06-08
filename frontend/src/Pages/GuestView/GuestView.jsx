@@ -1,11 +1,15 @@
-import { Outlet } from "react-router-dom";
-import { NavBar } from "../../Components";
+import { Outlet, useNavigate } from "react-router-dom";
+import { NavBar, Searchbar } from "../../Components";
 
 export const GuestView = ({ isItLoggedIn }) => {
+  const navigate = useNavigate();
   return (
-    <div>
-      <h1>Hello</h1>
+    <div className="main-container">
+      <h1 style={{ cursor: "pointer" }} onClick={() => navigate("")}>
+        Guest view
+      </h1>
       <NavBar />
+      <Searchbar />
       <Outlet />
     </div>
   );

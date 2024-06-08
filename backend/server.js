@@ -41,7 +41,32 @@ app.get("/api/movies/popular", (req, res) => {
     });
 });
 
-app.get("/api/movie/:id", (req, res) => {
+app.get("/api/movies/nowplaying", (req, res) => {
+  const url = `${baseUrl}/now_playing?language=en-US&page=1`;
+
+  fetch(url, options)
+    .then((res) => res.json())
+    .then((json) => res.json(json))
+    .catch((err) => {
+      console.log(err),
+        res.status(506).json({ message: "Something went wrong" });
+    });
+});
+
+app.get("/api/trailer/:id", (req, res) => {
+  const ID = req.params.id;
+  const url = `${baseUrl}/${ID}/videos?language=en-US';`;
+
+  fetch(url, options)
+    .then((res) => res.json())
+    .then((json) => res.json(json))
+    .catch((err) => {
+      console.log(err),
+        res.status(506).json({ message: "Something went wrong" });
+    });
+});
+
+app.get("/api/movie/:id", (req, res, next) => {
   const ID = req.params.id;
   const url = `${baseUrl}/${ID}`;
 
@@ -54,44 +79,20 @@ app.get("/api/movie/:id", (req, res) => {
     });
 });
 
-app.post("/api/login", async (req, res) => {
-  const { username, password } = req.body;
-
-  const user = await User.findOne({ username });
-  if (!user || !(await user.comparePassword(password))) {
-    return res.status(401).json({ message: "Invalid credentials" });
-  }
-
-  //generating that fancy JWT token
-  const token = generateToken(user);
-  console.log(token);
-  res.json({ token });
-})
-
-app.post("/api/register", async (req, res) => {
-  const { username, email, password } = req.body;
-
-  console.log(username, email, password)
-
+app.get("/api/searchmovie/:search", async (req, res) => {
   try {
-    let user = await User.findOne({ email });
-    if (user) {
-      //we need to handle this on client side!!
-      return res.status(400).json({ message: "User already exists!" });
-    }
+    const search = encodeURIComponent(req.params.search);
+    console.log(search);
+    const url = `https://api.themoviedb.org/3/search/movie?query=${search}&include_adult=true&language=en-US&page=1`;
 
-    user = new User({
-      username, email, password
-    });
-
-    await user.save();
-
-    const token = generateToken(user);
-
-    res.status(201).json({ token });
+    fetch(url, options)
+      .then((res) => res.json())
+      .then((json) => {
+        res.json(json), console.log(json);
+      })
+      .catch((err) => console.log(err));
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Oopsie daisy, tiny server problemo" });
+    res.status(506).json({ message: "Something went wrong" });
   }
 });
 

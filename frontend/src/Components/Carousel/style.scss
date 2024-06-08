@@ -5,19 +5,6 @@
 /* src/MovieCarousel.scss */
 .movie-carousel {
   position: relative;
-  margin: 20px;
-
-  .movie-poster {
-    .movie-content {
-      background-color: wheat;
-      height: 300px;
-      margin: 20px;
-    }
-    p {
-      color: black;
-      text-align: center;
-    }
-  }
 }
 
 .arrow {
@@ -31,9 +18,9 @@
 }
 
 .next {
-  right: 10px;
+  right: -2rem;
 }
 
 .prev {
-  left: 10px;
+  left: -2rem;
 }

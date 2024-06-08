@@ -1,11 +1,11 @@
 import { SignIn, SignUp } from "../../Components";
-import "./style.scss"
+import "./style.scss";
 
 export const AuthPage = () => {
   return (
     <div className="authentication-container">
-      <SignIn></SignIn>
-      <SignUp></SignUp>
+      <SignIn />
+      <SignUp />
     </div>
   );
 };

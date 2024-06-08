@@ -13,6 +13,7 @@ import {
 } from "./Pages";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./main.styles.scss";
+import { MoviePage } from "./Pages/MoviePage/MoviePage";
 
 const isItLoggedIn = false;
 
@@ -25,10 +26,17 @@ const routing = createBrowserRouter([
         path: "/",
         element: <MainPage />,
       },
-
+      {
+        path: "/movies",
+        element: <Movies />,
+      },
       {
         path: "/auth",
         element: <AuthPage />,
+      },
+      {
+        path: "/movie/:id",
+        element: <MoviePage />,
       },
     ],
   },
@@ -37,8 +45,12 @@ const routing = createBrowserRouter([
     element: <UserView isItLoggedIn={isItLoggedIn} />,
     children: [
       {
-        path: "/segg",
+        path: "/",
         element: <MainPage />,
+      },
+      {
+        path: "/movies",
+        element: <Movies />,
       },
       {
         path: "/friends",
@@ -51,6 +63,10 @@ const routing = createBrowserRouter([
       {
         path: "/newsfeed",
         element: <NewsFeed />,
+      },
+      {
+        path: "/movie/:id",
+        element: <MoviePage />,
       },
     ],
   },

@@ -1,0 +1,16 @@
+.searchbar-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  width: 70vw;
+  input {
+    width: 50%;
+    height: 2rem;
+    font-size: large;
+    border: none;
+    border-radius: 10px;
+    text-indent: 1rem;
+    margin: 1rem;
+  }
+}
