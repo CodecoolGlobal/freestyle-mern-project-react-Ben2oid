@@ -5,17 +5,21 @@ export const useFetchData = (
   url,
   httpMethod,
   dataToSend = null,
-  headers = { "Content-Type": "application/json" }
+  authToken = null
 ) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
 
+  //TODO: Rewrite it so that it will only set data if response is ok
   const fetchData = (url, httpMethod, dataToSend) => {
     setLoading(true);
     fetch(url, {
       method: httpMethod,
-      headers: headers,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
       body: dataToSend,
     })
       .then((response) => response.json())

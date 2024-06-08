@@ -1,5 +1,4 @@
 import { createContext, useEffect, useState } from "react";
-import { jwtDecode } from "jwt-decode";
 //Everything related to authentication and the authentication state management is found here!
 
 export const AuthContext = createContext({
@@ -57,20 +56,18 @@ export const AuthProvider = ({ children }) => {
         },
         body: JSON.stringify(formFields),
       });
-
-      const data = await response.json();
-      console.log(data);
-      if (response.ok) {
-        const decoded = jwtDecode(data.token);
-        login(data.token, decoded);
-        console.log("Success:", data);
-        console.log("Decoded", decoded);
-        return { ok: true };
-      } else {
+      if (!response.ok) {
         console.error("Fail:", data.message);
         //we will send back an error, for example username is occupied!
         return { ok: false, message: data.message, errors: data.errors || {} };
       }
+
+      const data = await response.json();
+      console.log("data received", data);
+      login(data.token, data.user);
+      console.log("Success:", data.token);
+      console.log("user", data.user);
+      return { ok: true };
     } catch (error) {
       console.error("Error:", error);
       return {
@@ -82,7 +79,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ token, user, isItLoggedIn, logout, authoriseUser }}>
+    <AuthContext.Provider
+      value={{ token, user, isItLoggedIn, logout, authoriseUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

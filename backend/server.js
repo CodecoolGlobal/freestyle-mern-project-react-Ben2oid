@@ -17,7 +17,8 @@ const options = {
 };
 
 //secret key for jwt
-const secretKey = crypto.randomBytes(32).toString('hex');
+/* const secretKey = crypto.randomBytes(32).toString('hex'); */
+const secretKey = "mysecretkey";
 console.log('Secret Key:', secretKey);
 
 // jwt token for authentication
@@ -46,10 +47,33 @@ const verifyToken = (req, res, next) => {
   });
 };
 
+//middleware for validating the user
+const validateUser = async (req, res, next) => {
+  const { userId } = req.params;
+  const user = req.user;
+
+  if (user.userId === userId) {
+    try {
+      const userData = await User.findById(userId);
+      if (!userData) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+      req.userData = userData;
+      next();
+    } catch (error) {
+      return res.status(500).json({ message: 'Server error', error });
+    }
+  } else {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+};
+
+
 const app = express();
 const PORT = 6969;
 app.use(express.json());
 
+// query parameters
 app.get("/api/movies/popular", (req, res) => {
   const url = `${baseUrl}/popular?language=en-US&page=1`;
 
@@ -74,6 +98,7 @@ app.get("/api/movies/nowplaying", (req, res) => {
     });
 });
 
+//todo /api/movies/:movieId/trailer/
 app.get("/api/trailer/:id", (req, res) => {
   const ID = req.params.id;
   const url = `${baseUrl}/${ID}/videos?language=en-US';`;
@@ -100,6 +125,7 @@ app.get("/api/movie/:id", (req, res, next) => {
     });
 });
 
+//Todo 1 endpoint for these!
 app.get("/api/searchmovie/:search", async (req, res) => {
   try {
     const search = encodeURIComponent(req.params.search);
@@ -138,8 +164,9 @@ app.post("/api/login", async (req, res) => {
     //generating that fancy JWT token
     const token = generateToken(user);
     console.log(token);
+    const { _id: userId, username } = user;
 
-    res.json({ token });
+    res.json({ token: token, user: { userId, username } });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Oopsie daisy, tiny server problemo" });
@@ -155,7 +182,7 @@ app.post("/api/register", async (req, res) => {
     let user = await User.findOne({
       $or: [
         { email: email },
-        { username: username } // or any other condition
+        { username: username }
       ]
     });
     if (user) {
@@ -169,18 +196,41 @@ app.post("/api/register", async (req, res) => {
     });
 
     await user.save();
+    const { _id: userId } = user;
     const token = generateToken(user);
 
-    res.status(201).json({ token });
+    res.status(201).json({ token: token, user: { userId, username } });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Oopsie daisy, tiny server problemo" });
   }
 });
 
-/* app.get("/api/protected/userData", verifyToken, (req, res) => {
 
-}) */
+
+//sending the profile data
+app.get('/api/user/:userId', verifyToken, validateUser, async (req, res) => {
+  const userData = req.userData;
+  const { _id, username, email, displayName } = userData;
+  res.json({ user: { userId: _id, username, email, displayName } })
+});
+
+app.post('/api/user/:userId/change-password', verifyToken, validateUser, async (req, res) => {
+
+  const userData = req.userData;
+
+  const { currentPassword, newPassword } = req.body;
+  const correctPassword = await userData.comparePassword(currentPassword);
+
+  if (!correctPassword) {
+    return res.status(401).json({ message: "Invalid Credentials", errors: { message: "The given password is incorrect" } });
+  }
+
+  userData.password = newPassword;
+  await userData.save();
+  res.json({ message: "Password changed successfully" });
+})
+
 
 app.get("/api/protected/userData", verifyToken, (req, res) => {
   console.log(req.user)

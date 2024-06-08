@@ -1,7 +1,9 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { NavBar, Searchbar } from "../../Components";
 
-export const GuestView = ({ isItLoggedIn }) => {
+
+export const Root = () => {
+
   const navigate = useNavigate();
   return (
     <div className="main-container">

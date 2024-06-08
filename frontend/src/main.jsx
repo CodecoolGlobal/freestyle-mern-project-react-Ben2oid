@@ -1,28 +1,27 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {
   AuthPage,
-  GuestView,
+  Root,
   MainPage,
   NotFound,
-  UserView,
   Friends,
   NewsFeed,
   Movies,
   MyList,
   Profile,
 } from "./Pages";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "./main.styles.scss";
 import { MoviePage } from "./Pages/MoviePage/MoviePage";
+import { PrivateRoute } from "./Components";
 import { AuthProvider } from "./Components/contexts/AuthContext/AuthContext";
-
-const isItLoggedIn = false;
+import "./main.styles.scss";
+import { GuestOnlyRoute } from "./Components/GuestOnlyRoute/GuestOnlyRoute";
 
 const routing = createBrowserRouter([
   {
     path: "/",
-    element: <GuestView isItLoggedIn={isItLoggedIn} />,
+    element: <Root />,
     children: [
       {
         path: "/",
@@ -31,52 +30,30 @@ const routing = createBrowserRouter([
       {
         path: "/movies",
         element: <Movies />,
-      },
-      {
-        path: "/profile/:userId",
-        element: <Profile />,
       },
       {
         path: "/auth",
-        element: <AuthPage />,
+        element: <GuestOnlyRoute element={<AuthPage />}/>
       },
       {
         path: "/movie/:id",
         element: <MoviePage />,
-      },
-    ],
-  },
-  {
-    path: "/",
-    element: <UserView isItLoggedIn={isItLoggedIn} />,
-    children: [
-      {
-        path: "/",
-        element: <MainPage />,
-      },
-      {
-        path: "/movies",
-        element: <Movies />,
       },
       {
         path: "/profile/:userId",
-        element: <Profile />,
+        element: <PrivateRoute element={<Profile />} />,
       },
       {
         path: "/friends",
-        element: <Friends />,
+        element: <PrivateRoute element={<Friends />} />,
       },
       {
         path: "/my-list",
-        element: <MyList />,
+        element: <PrivateRoute element={<MyList />} />,
       },
       {
         path: "/newsfeed",
-        element: <NewsFeed />,
-      },
-      {
-        path: "/movie/:id",
-        element: <MoviePage />,
+        element: <PrivateRoute element={<NewsFeed />} />,
       },
     ],
   },
